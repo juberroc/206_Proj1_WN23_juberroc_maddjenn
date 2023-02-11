@@ -1,8 +1,8 @@
 
-# Your name:
-# Your student id:
-# Your email:
-# List who you have worked with on this project:
+# Your name: Julio Berrocal Alvarez
+# Your student id: 14797142
+# Your email: juberroc@umich.edu
+# List who you have worked with on this project: Madison Jennings (maddjenn)
 
 import io
 import sys
@@ -10,22 +10,42 @@ import csv
 import unittest
 
 def load_csv(filename):
-    '''
-    Reads in the csv, removes the header (first row) and
-    stores the data in the following nested dictionary format:
-    {'region': {'race/ethnicity': count...}...}
+    file = open(filename)  
+    
+    content = file.readlines() #list of strings of each row
+    data = {}
 
-    Parameters
-    ----------
-    filename: string
-        the file to read
+    headers = content[0].strip().split(",") # list of strings of first row
+    headers.pop(0)
 
-    Returns
-    -------
-    data: dict
-        a nested dictionary
-    '''
-    data={}
+    midwest = content[1].strip().split(",") # list of string of second row
+    midwest.pop(0)
+    northeast = content[2].strip().split(",") # list of string of third row
+    northeast.pop(0)
+    south = content[3].strip().split(",") # list of string of fourth row
+    south.pop(0)
+    west = content[4].strip().split(",") # list of string of fifth row
+    west.pop(0)
+   
+    region_counts = {"midwest": midwest, "northeast": northeast, "south": south, "west": west} 
+    
+    for i in range(len(headers)): #switching values from str to int
+       midwest[i] = int(midwest[i])
+       northeast[i] = int(northeast[i])
+       south[i] = int(south[i])
+       west[i] = int(west[i])
+        
+
+    for row in content[1:]: #looping through the rows (regions)
+        column = row.split(',')
+        region = column[0]
+        data[region] = {}
+        counter = 0
+        for item in headers: #looping through the heards
+            data[region][item] = region_counts[region][counter] 
+            counter += 1
+    
+    return data
 
 def calc_pct(data):
     '''
@@ -182,6 +202,8 @@ def main():
     on your computed dict of differences
     '''
 
+    load_csv("sat_data.csv")
+
     # read in the data
 
     # compute demographic percentages
@@ -219,32 +241,37 @@ class HWTest(unittest.TestCase):
         self.sat_data = load_csv("sat_data.csv")
         self.census_data = load_csv("census_data.csv")
 
-        self.sat_pct = calc_pct(self.sat_data)
-        self.census_pct = calc_pct(self.census_data)
+        #self.sat_pct = calc_pct(self.sat_data)
+        #self.census_pct = calc_pct(self.census_data)
 
-        self.pct_dif_dict = calc_diff(self.sat_pct, self.census_pct)
+        #self.pct_dif_dict = calc_diff(self.sat_pct, self.census_pct)
 
-        self.col_list = list(self.pct_dif_dict["midwest"].keys())
+        #self.col_list = list(self.pct_dif_dict["midwest"].keys())
 
-        self.mutated = min_max_mutate(self.pct_dif_dict, self.col_list)
+        #self.mutated = min_max_mutate(self.pct_dif_dict, self.col_list)
 
-        self.min_max_val = min_max(self.mutated)
+        #self.min_max_val = min_max(self.mutated)
 
         # extra credit
         # providing a list of col vals to cycle through
-        self.col_list = self.census_data["midwest"].keys()
+        #self.col_list = self.census_data["midwest"].keys()
 
         # computing the national percentages
-        self.sat_nat_pct = nat_pct(self.sat_data, self.col_list)
-        self.census_nat_pct = nat_pct(self.census_data, self.col_list)
+        #self.sat_nat_pct = nat_pct(self.sat_data, self.col_list)
+        #self.census_nat_pct = nat_pct(self.census_data, self.col_list)
 
-        self.dif = nat_diff(self.sat_nat_pct, self.census_nat_pct)
+        #self.dif = nat_diff(self.sat_nat_pct, self.census_nat_pct)
 
     '''
 
     Create test functions for the functions you wrote here!
 
     '''
+    def test_load_csv(self):
+        self.assertEqual(len(self.sat_data), 4, "Testing that length of SAT dictionary is 4")
+        self.assertEqual(len(self.census_data), 4, "Testing that length of Census dcitionary is 4 ")
+        self.assertEqual(self.sat_data["midwest"]["ASIAN"], 14664, "Testing number of Asian test-takers in the midwest")
+        self.assertEqual(self.census_data["northeast"]["ASIAN"], 3635499, "Testing Asian population in the northeast")
 
     # # testing the nat_pct extra credit function
     # def test_nat_pct(self):
