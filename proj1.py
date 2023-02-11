@@ -64,7 +64,14 @@ def calc_pct(data):
         for each demographic for each region in the data set
     '''
     pcts = {}
-
+    for region, region_data in data.items():
+        total_people = sum(region_data.values())
+        region_pcts = {}
+        for demographic, count in region_data.items():
+            pct = (count / total_people) * 100
+            region_pcts[demographic] = pct
+        pcts[region] = region_pcts
+    return pcts
 def calc_diff(sat_dict, census_dict):
     '''
     Takes the absolute value, rounded to 2 decimal places,
@@ -84,6 +91,17 @@ def calc_diff(sat_dict, census_dict):
         the dictionary of the percent differences
     '''
     pct_dif = {}
+    for region, sat_demographic in sat_dict.items():
+        if region not in pct_dif:
+            pct_dif[region] = {}
+    sat_total = sum(sat_demographic.values())
+    census_demographic = census_dict[region]
+    census_total = sum(census_demographic.values())
+    for demographic, count in sat_demographic.items():
+            sat_pct = round((count / sat_total) * 100, 2)
+            census_pct = round((census_demographic[demographic] / census_total) * 100, 2)
+            pct_dif[region][demographic] = round(abs(sat_pct - census_pct), 2)
+    return pct_dif
 
 def write_csv(data, file_name):
     '''
@@ -102,7 +120,15 @@ def write_csv(data, file_name):
     -------
         None. (Doesn't return anything)
     '''
-    pass
+    def write_csv(data, file_name):
+        with open(file_name, 'w', newline='') as f:
+            writer = csv.writer(f)
+            header = ['region'] + list(data[list(data.keys())[0]].keys())
+            writer.writerow(header)
+
+            for region, values in data.items():
+                row = [region] + list(values.values())
+                writer.writerow(row)
 
 def min_max_mutate(data, col_list):
     # Do not change the code in this function
@@ -124,6 +150,7 @@ def min_max_mutate(data, col_list):
     -------
     demo_vals: dict
     '''
+    
     # Do not change the code in this function
     demo_vals = {}
     for demo in col_list:
