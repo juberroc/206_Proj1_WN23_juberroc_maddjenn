@@ -1,7 +1,7 @@
 
-# Your name: Julio Berrocal Alvarez
-# Your student id: 14797142
-# Your email: juberroc@umich.edu
+# Your names: Julio Berrocal Alvarez, Madison Jennings
+# Your student id: 14797142, 48980758
+# Your emails: juberroc@umich.edu , maddjenn@umich.edu
 # List who you have worked with on this project: Madison Jennings (maddjenn)
 
 import io
@@ -69,7 +69,7 @@ def calc_pct(data):
         total_people = sum(region_data.values())
         region_pcts = {}
         for demographic, count in region_data.items():
-            pct = (count / total_people) * 100
+            pct = ((count / total_people) * 100) *2
             region_pcts[demographic] = pct
         pcts[region] = region_pcts
     return pcts
@@ -231,7 +231,7 @@ def main():
     on your computed dict of differences
     '''
 
-    var1 = load_csv("sat_data.csv")
+    var1 = load_csv("census_data.csv")
     var2 = calc_pct(var1)
     print(var2)
 
@@ -272,8 +272,8 @@ class HWTest(unittest.TestCase):
         self.sat_data = load_csv("sat_data.csv")
         self.census_data = load_csv("census_data.csv")
 
-        #self.sat_pct = calc_pct(self.sat_data)
-        #self.census_pct = calc_pct(self.census_data)
+        self.sat_pct = calc_pct(self.sat_data)
+        self.census_pct = calc_pct(self.census_data)
 
         #self.pct_dif_dict = calc_diff(self.sat_pct, self.census_pct)
 
@@ -304,6 +304,13 @@ class HWTest(unittest.TestCase):
         self.assertEqual(self.sat_data["midwest"]["ASIAN"], 14664, "Testing number of Asian test-takers in the midwest")
         self.assertEqual(self.census_data["northeast"]["ASIAN"], 3635499, "Testing Asian population in the northeast")
 
+    def test_calc_pct(self):
+        self.assertAlmostEqual(self.sat_pct["midwest"]["AMERICAN INDIAN/ALASKA NATIVE"], 0.8039, 2, "Testing SAT pct of American Indian/Alaska white in midwest region")
+        self.assertAlmostEqual(self.sat_pct["midwest"]["ASIAN"], 5.873 , 2, "Testing SAT pct of Asians in midwest region")
+        #self.assertAlmostEqual(self.census_pct["midwest"]["AMERICAN INDIAN/ALASKA NATIVE"], 0.5251, 2,  "Testing census pct of American Indian/Alaska white in midwest region")
+        #self.assertAlmostEqual(self.census_pct["west"]["ASIAN"], 10.7708 , 2, "Testing census pct of Asian in west region")
+
+
     # # testing the nat_pct extra credit function
     # def test_nat_pct(self):
     #    self.assertEqual(
@@ -330,4 +337,5 @@ class HWTest(unittest.TestCase):
     #         3.32)
 
 if __name__ == '__main__':
-    #unittest.main(verbosity=2)
+    unittest.main(verbosity=2)
+    pass
