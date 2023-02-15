@@ -9,6 +9,7 @@ import sys
 import csv
 import unittest
 
+
 def load_csv(filename):
     file = open(filename)  
     
@@ -72,6 +73,7 @@ def calc_pct(data):
             region_pcts[demographic] = pct
         pcts[region] = region_pcts
     return pcts
+
 def calc_diff(sat_dict, census_dict):
     '''
     Takes the absolute value, rounded to 2 decimal places,
@@ -229,7 +231,9 @@ def main():
     on your computed dict of differences
     '''
 
-    load_csv("sat_data.csv")
+    var1 = load_csv("sat_data.csv")
+    var2 = calc_pct(var1)
+    print(var2)
 
     # read in the data
 
@@ -326,4 +330,4 @@ class HWTest(unittest.TestCase):
     #         3.32)
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    #unittest.main(verbosity=2)
