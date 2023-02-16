@@ -64,13 +64,23 @@ def calc_pct(data):
         the dictionary that represents the data in terms of percentage share
         for each demographic for each region in the data set
     '''
+    #pcts = {}
+    #for region, region_data in data.items():
+        #total_people = sum(region_data.values())
+        #region_pcts = {}
+        #for demographic, count in region_data.items():
+            #pct = ((count / total_people) * 100) *2
+            #region_pcts[demographic] = pct
+        #pcts[region] = region_pcts
+    #return pcts
+
     pcts = {}
     for region, region_data in data.items():
         total_people = sum(region_data.values())
         region_pcts = {}
         for demographic, count in region_data.items():
-            pct = ((count / total_people) * 100) *2
-            region_pcts[demographic] = pct
+            pct = (count / total_people) * 100
+            region_pcts[demographic] = round(pct, 2)
         pcts[region] = region_pcts
     return pcts
 
