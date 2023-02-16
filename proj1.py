@@ -46,6 +46,7 @@ def load_csv(filename):
             data[region][item] = region_counts[region][counter] 
             counter += 1
     
+    file.close()
     return data
 
 def calc_pct(data):
@@ -97,10 +98,10 @@ def calc_diff(sat_dict, census_dict):
     for region, sat_demographic in sat_dict.items():
         if region not in pct_dif:
             pct_dif[region] = {}
-    sat_total = sum(sat_demographic.values())
-    census_demographic = census_dict[region]
-    census_total = sum(census_demographic.values())
-    for demographic, count in sat_demographic.items():
+        sat_total = sum(sat_demographic.values())
+        census_demographic = census_dict[region]
+        census_total = sum(census_demographic.values())
+        for demographic, count in sat_demographic.items():
             sat_pct = round((count / sat_total) * 100, 2)
             census_pct = round((census_demographic[demographic] / census_total) * 100, 2)
             pct_dif[region][demographic] = round(abs(sat_pct - census_pct), 2)
@@ -258,9 +259,9 @@ def main():
     sat_pct = calc_pct(sat_var)
     census_pct = calc_pct(census_var)
 
-    pct_diff = calc_diff(sat_pct, census_pct)
+    #pct_diff = calc_diff(sat_pct, census_pct)
     
-    print(pct_diff)
+    #print(pct_diff)
 
 
     # read in the data
@@ -368,5 +369,5 @@ class HWTest(unittest.TestCase):
     #         3.32)
 
 if __name__ == '__main__':
-    #unittest.main(verbosity=2)
+    unittest.main(verbosity=2)
     pass
