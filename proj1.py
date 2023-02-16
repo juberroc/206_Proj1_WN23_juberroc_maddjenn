@@ -236,7 +236,13 @@ def nat_diff(sat_data, census_data):
         the dictionary consisting of the demographic
         difference on national level
     '''
-    nat_difference = {}
+  nat_difference = {}
+    for col in sat_data:
+        census_pct = census_data.get(col)
+        if col in census_data.keys():
+            diff = sat_data[col] - census_pct
+            nat_difference[col] = diff
+    return nat_difference
 
 def main():
     '''
