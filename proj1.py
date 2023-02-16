@@ -64,7 +64,6 @@ def calc_pct(data):
         the dictionary that represents the data in terms of percentage share
         for each demographic for each region in the data set
     '''
-
     pcts = {}
     for region, region_data in data.items():
         total_people = region_data.get("Region Totals")
@@ -253,9 +252,16 @@ def main():
     on your computed dict of differences
     '''
 
-    #var1 = load_csv("census_data.csv")
-    #var2 = calc_pct(var1)
-    #print(var2)
+    census_var = load_csv("census_data.csv")
+    sat_var = load_csv("sat_data.csv")
+    
+    sat_pct = calc_pct(sat_var)
+    census_pct = calc_pct(census_var)
+
+    pct_diff = calc_diff(sat_pct, census_pct)
+    
+    print(pct_diff)
+
 
     # read in the data
 
@@ -332,6 +338,9 @@ class HWTest(unittest.TestCase):
         self.assertAlmostEqual(self.census_pct["midwest"]["AMERICAN INDIAN/ALASKA NATIVE"], 0.5251, 2,  "Testing census pct of American Indian/Alaska white in midwest region")
         self.assertAlmostEqual(self.census_pct["west"]["ASIAN"], 10.7708 , 2, "Testing census pct of Asian in west region")
 
+    #def test_calc_diff(self):
+        #self.assertAlmostEqual(self.pct_dif_dict["midwest"]["ASIAN"], 3.11, 2, "Testing pct difference for Asian in midwest")
+
 
     # # testing the nat_pct extra credit function
     # def test_nat_pct(self):
@@ -359,5 +368,5 @@ class HWTest(unittest.TestCase):
     #         3.32)
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    #unittest.main(verbosity=2)
     pass
