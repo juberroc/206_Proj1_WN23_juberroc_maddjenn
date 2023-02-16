@@ -94,14 +94,14 @@ def calc_diff(sat_dict, census_dict):
     pct_dif: dict
         the dictionary of the percent differences
     '''
-    pct_dif = {}
+  pct_dif = {}
     for region, sat_demographic in sat_dict.items():
         if region not in pct_dif:
             pct_dif[region] = {}
-    sat_total = sum(sat_demographic.values())
-    census_demographic = census_dict[region]
-    census_total = sum(census_demographic.values())
-    for demographic, count in sat_demographic.items():
+        sat_total = sum(sat_demographic.values())
+        census_demographic = census_dict[region]
+        census_total = sum(census_demographic.values())
+        for demographic, count in sat_demographic.items():
             sat_pct = round((count / sat_total) * 100, 2)
             census_pct = round((census_demographic[demographic] / census_total) * 100, 2)
             pct_dif[region][demographic] = round(abs(sat_pct - census_pct), 2)
