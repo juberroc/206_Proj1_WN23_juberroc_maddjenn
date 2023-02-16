@@ -102,6 +102,8 @@ def calc_diff(sat_dict, census_dict):
         census_demographic = census_dict[region]
         census_total = sum(census_demographic.values())
         for demographic, count in sat_demographic.items():
+        for demographic, count in sat_demographic.items():
+            if demographic != "No Response":
             sat_pct = round((count / sat_total) * 100, 2)
             census_pct = round((census_demographic[demographic] / census_total) * 100, 2)
             pct_dif[region][demographic] = round(abs(sat_pct - census_pct), 2)
