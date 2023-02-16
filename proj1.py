@@ -64,19 +64,11 @@ def calc_pct(data):
         the dictionary that represents the data in terms of percentage share
         for each demographic for each region in the data set
     '''
-    #pcts = {}
-    #for region, region_data in data.items():
-        #total_people = sum(region_data.values())
-        #region_pcts = {}
-        #for demographic, count in region_data.items():
-            #pct = ((count / total_people) * 100) *2
-            #region_pcts[demographic] = pct
-        #pcts[region] = region_pcts
-    #return pcts
 
     pcts = {}
     for region, region_data in data.items():
-        total_people = sum(region_data.values())
+        total_people = region_data.get("Region Totals")
+        print(total_people)
         region_pcts = {}
         for demographic, count in region_data.items():
             pct = (count / total_people) * 100
@@ -211,7 +203,7 @@ def nat_pct(data, col_list):
         dictionary of the national demographic percentages
 
     '''
-       data_totals = {}    
+    data_totals = {}    
     for col in col_list:
         if not col.endswith("_total"):
             for region in data:
@@ -233,7 +225,6 @@ def nat_diff(sat_data, census_data):
     EXTRA CREDIT
     Calculates the difference between SAT and Census
     data on a national scale
-
     Parameters
     ----------
     sat_data: dict
@@ -246,7 +237,7 @@ def nat_diff(sat_data, census_data):
         the dictionary consisting of the demographic
         difference on national level
     '''
-  nat_difference = {}
+    nat_difference = {}
     for col in sat_data:
         census_pct = census_data.get(col)
         if col in census_data.keys():
@@ -262,9 +253,9 @@ def main():
     on your computed dict of differences
     '''
 
-    var1 = load_csv("census_data.csv")
-    var2 = calc_pct(var1)
-    print(var2)
+    #var1 = load_csv("census_data.csv")
+    #var2 = calc_pct(var1)
+    #print(var2)
 
     # read in the data
 
@@ -338,8 +329,8 @@ class HWTest(unittest.TestCase):
     def test_calc_pct(self):
         self.assertAlmostEqual(self.sat_pct["midwest"]["AMERICAN INDIAN/ALASKA NATIVE"], 0.8039, 2, "Testing SAT pct of American Indian/Alaska white in midwest region")
         self.assertAlmostEqual(self.sat_pct["midwest"]["ASIAN"], 5.873 , 2, "Testing SAT pct of Asians in midwest region")
-        #self.assertAlmostEqual(self.census_pct["midwest"]["AMERICAN INDIAN/ALASKA NATIVE"], 0.5251, 2,  "Testing census pct of American Indian/Alaska white in midwest region")
-        #self.assertAlmostEqual(self.census_pct["west"]["ASIAN"], 10.7708 , 2, "Testing census pct of Asian in west region")
+        self.assertAlmostEqual(self.census_pct["midwest"]["AMERICAN INDIAN/ALASKA NATIVE"], 0.5251, 2,  "Testing census pct of American Indian/Alaska white in midwest region")
+        self.assertAlmostEqual(self.census_pct["west"]["ASIAN"], 10.7708 , 2, "Testing census pct of Asian in west region")
 
 
     # # testing the nat_pct extra credit function
