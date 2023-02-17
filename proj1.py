@@ -175,7 +175,16 @@ def min_max(data):
     min_max: dict
         a triple nested dictionary
     '''
-    min_max = {"min":{},"max":{}}
+    min_max = {"min": {}, "max": {}}
+    for demographic in data:
+        min_region = min(data[demographic], key=data[demographic].get)
+        min_val = data[demographic][min_region]
+        max_region = max(data[demographic], key=data[demographic].get)
+        max_val = data[demographic][max_region]
+        min_max["min"][demographic] = {min_region: min_val}
+        min_max["max"][demographic] = {max_region: max_val}
+    return min_max
+
 
 
 def nat_pct(data, col_list):
@@ -247,6 +256,7 @@ def main():
 
     census_var = load_csv("census_data.csv")
     sat_var = load_csv("sat_data.csv")
+    demographics = ["AMERICAN INDIAN/ALASKA NATIVE", "ASIAN" ,"BLACK" ,"HISPANIC/LATINO","NATIVE HAWAIIAN/OTH PACF ISL","WHITE","TWO OR MORE RACES", "OTHER"]
     
     sat_pct = calc_pct(sat_var)
     census_pct = calc_pct(census_var)
@@ -258,14 +268,15 @@ def main():
     
     #print(pct_diff)
 
-    output = write_csv(pct_diff, "proj1-Berrocal-Jennings.csv")
+    #output = write_csv(pct_diff, "proj1-Berrocal-Jennings.csv")
 
-    #dic_mutate = min_max_mutate(pct_diff)
+    dic_mutate = min_max_mutate(pct_diff, demographics)
 
-    #print(dic_mutate)
+    print(dic_mutate)
 
-
-
+    min_max_dic = min_max(dic_mutate)
+    
+    print(min_max_dic)
 
     # read in the data
 
