@@ -93,19 +93,16 @@ def calc_diff(sat_dict, census_dict):
     pct_dif: dict
         the dictionary of the percent differences
     '''
-    #pct_dif = {}
-    #for region, sat_demographic in sat_dict.items():
-    #    if region not in pct_dif:
-    #        pct_dif[region] = {}
-    #    sat_total = sum(sat_demographic.values())
-    #    census_demographic = census_dict[region]
-    #    census_total = sum(census_demographic.values())
-    #    for demographic, count in sat_demographic.items():
-    #        if demographic != "No Response":
-    #            sat_pct = round((count / sat_total) * 100, 2)
-    #            census_pct = round((census_demographic[demographic] / census_total) * 100, 2)
-    #            pct_dif[region][demographic] = round(abs(sat_pct - census_pct), 2)
-    #return pct_dif 
+    pct_dif = {}
+    for region in sat_dict.keys():
+        pct_dif[region] = {}
+        for demographic in sat_dict[region]:
+            if demographic in census_dict[region].keys():
+                diff = abs(sat_dict[region][demographic] - census_dict[region][demographic])
+                diff = round(diff, 2)
+                pct_dif[region][demographic] = diff
+    return pct_dif
+
 
 def write_csv(data, file_name):
     '''
@@ -259,7 +256,10 @@ def main():
     sat_pct = calc_pct(sat_var)
     census_pct = calc_pct(census_var)
 
-    #pct_diff = calc_diff(sat_pct, census_pct)
+    #print(sat_pct)
+    #print(census_pct)
+
+    pct_diff = calc_diff(sat_pct, census_pct)
     
     #print(pct_diff)
 
@@ -304,7 +304,7 @@ class HWTest(unittest.TestCase):
         self.sat_pct = calc_pct(self.sat_data)
         self.census_pct = calc_pct(self.census_data)
 
-        #self.pct_dif_dict = calc_diff(self.sat_pct, self.census_pct)
+        self.pct_dif_dict = calc_diff(self.sat_pct, self.census_pct)
 
         #self.col_list = list(self.pct_dif_dict["midwest"].keys())
 
@@ -339,8 +339,9 @@ class HWTest(unittest.TestCase):
         self.assertAlmostEqual(self.census_pct["midwest"]["AMERICAN INDIAN/ALASKA NATIVE"], 0.5251, 2,  "Testing census pct of American Indian/Alaska white in midwest region")
         self.assertAlmostEqual(self.census_pct["west"]["ASIAN"], 10.7708 , 2, "Testing census pct of Asian in west region")
 
-    #def test_calc_diff(self):
-        #self.assertAlmostEqual(self.pct_dif_dict["midwest"]["ASIAN"], 3.11, 2, "Testing pct difference for Asian in midwest")
+    def test_calc_diff(self):
+        self.assertAlmostEqual(self.pct_dif_dict["midwest"]["ASIAN"], 3.11 , 2, "Testing pct difference for Asian in midwest")
+        self.assertAlmostEqual(self.pct_dif_dict["south"]["BLACK"], 3.26, 2, "Testing pct difference for Black in south" )
 
 
     # # testing the nat_pct extra credit function
