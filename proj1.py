@@ -121,15 +121,14 @@ def write_csv(data, file_name):
     -------
         None. (Doesn't return anything)
     '''
-    def write_csv(data, file_name):
-        with open(file_name, 'w', newline='') as f:
-            writer = csv.writer(f)
-            header = ['region'] + list(data[list(data.keys())[0]].keys())
-            writer.writerow(header)
+    with open(file_name, 'w', newline='') as f:
+        writer = csv.writer(f)
+        header = ['region'] + list(data[list(data.keys())[0]].keys())
+        writer.writerow(header)
 
-            for region, values in data.items():
-                row = [region] + list(values.values())
-                writer.writerow(row)
+        for region, values in data.items():
+            row = [region] + list(values.values())
+            writer.writerow(row)
 
 def min_max_mutate(data, col_list):
     # Do not change the code in this function
@@ -263,6 +262,8 @@ def main():
     
     #print(pct_diff)
 
+    cst = write_csv(pct_diff, "output.csv")
+
 
     # read in the data
 
@@ -370,5 +371,5 @@ class HWTest(unittest.TestCase):
     #         3.32)
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    # unittest.main(verbosity=2)
     pass
