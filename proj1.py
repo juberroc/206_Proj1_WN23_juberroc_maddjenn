@@ -272,11 +272,11 @@ def main():
 
     dic_mutate = min_max_mutate(pct_diff, demographics)
 
-    print(dic_mutate)
+    #print(dic_mutate)
 
     min_max_dic = min_max(dic_mutate)
     
-    print(min_max_dic)
+    #print(min_max_dic)
 
     # read in the data
 
@@ -320,11 +320,11 @@ class HWTest(unittest.TestCase):
 
         self.pct_dif_dict = calc_diff(self.sat_pct, self.census_pct)
 
-        #self.col_list = list(self.pct_dif_dict["midwest"].keys())
+        self.col_list = list(self.pct_dif_dict["midwest"].keys())
 
-        #self.mutated = min_max_mutate(self.pct_dif_dict, self.col_list)
+        self.mutated = min_max_mutate(self.pct_dif_dict, self.col_list)
 
-        #self.min_max_val = min_max(self.mutated)
+        self.min_max_val = min_max(self.mutated)
 
         # extra credit
         # providing a list of col vals to cycle through
@@ -357,6 +357,13 @@ class HWTest(unittest.TestCase):
         self.assertAlmostEqual(self.pct_dif_dict["midwest"]["ASIAN"], 3.11 , 2, "Testing pct difference for Asian in midwest")
         self.assertAlmostEqual(abs(self.pct_dif_dict["south"]["BLACK"]), 3.26, 2, "Testing pct difference for Black in south" )
 
+    def test_min_max(self):
+        self.assertEqual(list(self.min_max_val["max"]["WHITE"].keys())[0], "midwest", "Testing that max region for White is midwest")
+        self.assertEqual(list(self.min_max_val["min"]["WHITE"].keys())[0], "west", "Testing that min region for White is west")
+        self.assertEqual(list(self.min_max_val["min"]["BLACK"].keys())[0], "midwest", "Testing that min region for Black is midwest")
+        self.assertEqual(list(self.min_max_val["max"]["BLACK"].keys())[0], "south", "Testing that max region for Black is south")
+      
+
 
     # # testing the nat_pct extra credit function
     # def test_nat_pct(self):
@@ -384,5 +391,5 @@ class HWTest(unittest.TestCase):
     #         3.32)
 
 if __name__ == '__main__':
-    # unittest.main(verbosity=2)
+    unittest.main(verbosity=2)
     pass
