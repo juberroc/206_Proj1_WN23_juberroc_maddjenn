@@ -314,13 +314,13 @@ class HWTest(unittest.TestCase):
 
         # extra credit
         # providing a list of col vals to cycle through
-        #self.col_list = self.census_data["midwest"].keys()
+        self.col_list = self.census_data["midwest"].keys()
 
         # computing the national percentages
-        #self.sat_nat_pct = nat_pct(self.sat_data, self.col_list)
-        #self.census_nat_pct = nat_pct(self.census_data, self.col_list)
+        self.sat_nat_pct = nat_pct(self.sat_data, self.col_list)
+        self.census_nat_pct = nat_pct(self.census_data, self.col_list)
 
-        #self.dif = nat_diff(self.sat_nat_pct, self.census_nat_pct)
+        self.dif = nat_diff(self.sat_nat_pct, self.census_nat_pct)
 
     '''
 
@@ -352,29 +352,29 @@ class HWTest(unittest.TestCase):
 
 
     # # testing the nat_pct extra credit function
-    # def test_nat_pct(self):
-    #    self.assertEqual(
-    #    nat_pct({"region":{"demo":5,"Region Totals":10}},["demo", "Region Totals"]),
-    #    {'Region Totals': 100.0, 'demo': 50.0})
+    def test_nat_pct(self):
+        self.assertEqual(
+        nat_pct({"region":{"demo":5,"Region Totals":10}},["demo", "Region Totals"]),
+        {'Region Totals': 100.0, 'demo': 50.0})
 
     # # second test for the nat_pct extra credit function
-    # def test2_nat_pct(self):
-    #     self.assertEqual(
-    #         self.sat_nat_pct["AMERICAN INDIAN/ALASKA NATIVE"],
-    #         0.73)
+    def test2_nat_pct(self):
+         self.assertEqual(
+             self.sat_nat_pct["AMERICAN INDIAN/ALASKA NATIVE"],
+             0.73)
 
     # # testing the nat_dif extra credit function
-    # def test_nat_diff(self):
-    #     self.assertEqual(
-    #         nat_diff({"demo":0.53, "Region Totals": 1},{"demo":0.5, "Region Totals": 1}),
-    #         {'Region Totals': 0, "demo":0.03}
-    #         )
+    def test_nat_diff(self):
+         self.assertEqual(
+             nat_diff({"demo":0.53, "Region Totals": 1},{"demo":0.5, "Region Totals": 1}),
+             {'Region Totals': 0, "demo":0.03}
+             )
 
     # # second test for the nat_diff extra credit function
-    # def test2_nat_diff(self):
-    #     self.assertEqual(
-    #         self.dif["ASIAN"],
-    #         3.32)
+    def test2_nat_diff(self):
+         self.assertEqual(
+             self.dif["ASIAN"],
+             3.32)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
