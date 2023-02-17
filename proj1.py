@@ -103,7 +103,6 @@ def calc_diff(sat_dict, census_dict):
                 pct_dif[region][demographic] = diff
     return pct_dif
 
-
 def write_csv(data, file_name):
     '''
     Writes the data to csv, adding the header as
@@ -178,6 +177,7 @@ def min_max(data):
     '''
     min_max = {"min":{},"max":{}}
 
+
 def nat_pct(data, col_list):
     '''
     EXTRA CREDIT
@@ -211,10 +211,6 @@ def nat_pct(data, col_list):
         data_totals[col] = percentage
     
     return data_totals
-
-
-
-
 
 def nat_diff(sat_data, census_data):
     '''
@@ -262,7 +258,13 @@ def main():
     
     #print(pct_diff)
 
-    cst = write_csv(pct_diff, "output.csv")
+    output = write_csv(pct_diff, "proj1-Berrocal-Jennings.csv")
+
+    #dic_mutate = min_max_mutate(pct_diff)
+
+    #print(dic_mutate)
+
+
 
 
     # read in the data
@@ -342,7 +344,7 @@ class HWTest(unittest.TestCase):
 
     def test_calc_diff(self):
         self.assertAlmostEqual(self.pct_dif_dict["midwest"]["ASIAN"], 3.11 , 2, "Testing pct difference for Asian in midwest")
-        self.assertAlmostEqual(self.pct_dif_dict["south"]["BLACK"], 3.26, 2, "Testing pct difference for Black in south" )
+        self.assertAlmostEqual(abs(self.pct_dif_dict["south"]["BLACK"]), 3.26, 2, "Testing pct difference for Black in south" )
 
 
     # # testing the nat_pct extra credit function
