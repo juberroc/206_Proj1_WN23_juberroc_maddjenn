@@ -185,7 +185,7 @@ def min_max(data):
         min_max["max"][demographic] = {max_region: max_val}
     return min_max
 
-
+#Extra Credit
 
 def nat_pct(data, col_list):
     '''
@@ -252,47 +252,33 @@ def main():
     You don't have to print anything here, 
     but your code should run write_csv()
     on your computed dict of differences
-    '''
-
+    '''   
+    # read in the data
     census_var = load_csv("census_data.csv")
     sat_var = load_csv("sat_data.csv")
-    demographics = ["AMERICAN INDIAN/ALASKA NATIVE", "ASIAN" ,"BLACK" ,"HISPANIC/LATINO","NATIVE HAWAIIAN/OTH PACF ISL","WHITE","TWO OR MORE RACES", "OTHER"]
-    
+
+    # compute demographic percentages
     sat_pct = calc_pct(sat_var)
     census_pct = calc_pct(census_var)
 
-    #print(sat_pct)
-    #print(census_pct)
-
-    pct_diff = calc_diff(sat_pct, census_pct)
-    
-    #print(pct_diff)
-
-    #output = write_csv(pct_diff, "proj1-Berrocal-Jennings.csv")
-
-    dic_mutate = min_max_mutate(pct_diff, demographics)
-
-    #print(dic_mutate)
-
-    min_max_dic = min_max(dic_mutate)
-    
-    #print(min_max_dic)
-
-    # read in the data
-
-    # compute demographic percentages
-
     # compute the difference between test taker and state demographics
+    pct_diff = calc_diff(sat_pct, census_pct)
+    #rint(pct_diff)
 
     # output the csv
+    output = write_csv(pct_diff, "proj1-Berrocal-Jennings.csv")
 
     # create a list from the keys of inner dict
+    demographics = list(pct_diff['midwest'].keys())[0:8] #excluded Region Totals
 
     # mutate the data using the provided 'min_max_mutate' function
+    dic_mutate = min_max_mutate(pct_diff, demographics)
 
     # calculate the max and mins using `min_max`
+    min_max_dic = min_max(dic_mutate)
 
     # print 'min_max' as well 
+    print(min_max_dic)
 
     # extra credit here
 
