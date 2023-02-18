@@ -210,7 +210,6 @@ def nat_pct(data, col_list):
     '''
     data_totals = {}    
     for col in col_list:
-        if not col.endswith("_total"):
             for region in data:
                 value = data[region].get(col, 0)
                 data_totals[col] = data_totals.get(col, 0) + value
@@ -352,16 +351,16 @@ class HWTest(unittest.TestCase):
 
 
     # # testing the nat_pct extra credit function
-    #def test_nat_pct(self):
-    #    self.assertEqual(
-    #    nat_pct({"region":{"demo":5,"Region Totals":10}},["demo", "Region Totals"]),
-    #    {'Region Totals': 100.0, 'demo': 50.0})
+    def test_nat_pct(self):
+        self.assertEqual(
+        nat_pct({"region":{"demo":5,"Region Totals":10}},["demo", "Region Totals"]),
+        {'Region Totals': 100.0, 'demo': 50.0})
 
     # # second test for the nat_pct extra credit function
-    #def test2_nat_pct(self):
-    #     self.assertEqual(
-    #         self.sat_nat_pct["AMERICAN INDIAN/ALASKA NATIVE"],
-    #         0.73)
+    def test2_nat_pct(self):
+         self.assertEqual(
+            self.sat_nat_pct["AMERICAN INDIAN/ALASKA NATIVE"],
+            0.73)
 
     # # testing the nat_dif extra credit function
     #def test_nat_diff(self):
