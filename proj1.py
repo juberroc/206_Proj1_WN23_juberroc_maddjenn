@@ -208,27 +208,17 @@ def nat_pct(data, col_list):
         dictionary of the national demographic percentages
 
     '''
-    region_totals = data.get('Region Totals', {})
-    data_totals = {}
+
+    data_totals = {}    
+    for col in col_list:
+        for region in data:
+            value = data[region].get(col, 0)
+            data_totals[col] = data_totals.get(col, 0) + value
+    total_population = sum(data_totals.values())
+    for col, total in data_totals.items():
+        percentage = ((total / total_population) * 100) * 2 
+        data_totals[col] = percentage
     
-    if 'Region Totals' in data:
-        for col in col_list:
-            if col in region_totals:
-                col_total = 0
-                for region in data:
-                    if region != 'Region Totals':
-                        region_total = region_totals.get(col, 0)
-                        if region_total != 0:
-                            value = data[region].get(col, 0)
-                            percentage = (value / region_total) * 100
-                            col_total += percentage * (region_totals[region] / region_totals[col])
-                data_totals[col] = col_total
-
-        total_population = sum(region_totals.values())
-        for col, total in data_totals.items():
-            percentage = (total / total_population) * 100
-            data_totals[col] = percentage
-
     return data_totals
 
 def nat_diff(sat_data, census_data):
