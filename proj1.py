@@ -223,6 +223,7 @@ def nat_pct(data, col_list):
     
     for demo in col_list:
         data_totals[demo] = round((demo_total[demo] / total) * 100, 2)
+
    
     return data_totals
     
@@ -246,12 +247,12 @@ def nat_diff(sat_data, census_data):
         difference on national level
     '''
     nat_difference = {}
-    for col in sat_data:
-        census_pct = census_data.get(col)
-        if col in census_data.keys():
-            diff = sat_data[col] - census_pct
-            nat_difference[col] = diff
+
+    for key in sat_data.keys():
+        nat_difference[key] = round(abs(census_data[key] - sat_data[key]) , 2)
+    
     return nat_difference
+
 
 def main():
     '''
@@ -290,7 +291,12 @@ def main():
 
     # if you did the EC, print the dict you get from nat_diff
 
-    national_pct = nat_pct(census_var, demographics)
+    national_census_pct = nat_pct(census_var, demographics)
+    national_sat_pct = nat_pct(sat_var, demographics)
+    
+    national_diff = nat_diff(national_census_pct, national_sat_pct)
+    print("this is the national difference")
+    print(national_diff)
     
 
     pass
@@ -369,17 +375,11 @@ class HWTest(unittest.TestCase):
         self.assertEqual(self.sat_nat_pct["AMERICAN INDIAN/ALASKA NATIVE"],0.73)
 
     # # testing the nat_dif extra credit function
-    #def test_nat_diff(self):
-    #     self.assertEqual(
-    #         nat_diff({"demo":0.53, "Region Totals": 1},{"demo":0.5, "Region Totals": 1}),
-    #         {'Region Totals': 0, "demo":0.03}
-    #         )
+    def test_nat_diff(self):
+         self.assertEqual(nat_diff({"demo":0.53, "Region Totals": 1},{"demo":0.5, "Region Totals": 1}),{'Region Totals': 0, "demo":0.03})
 
     # # second test for the nat_diff extra credit function
-    #def test2_nat_diff(self):
-    #     self.assertEqual(
-    #         self.dif["ASIAN"],
-    #         3.32)
+    def test2_nat_diff(self):self.assertEqual(self.dif["ASIAN"],3.32)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
