@@ -212,16 +212,15 @@ def nat_pct(data, col_list):
     for col in col_list:
         col_total = 0
         for region in data:
-            if region in data:
-                value = data[region].get(col, 0)
-                if value is not None:
-                    col_total += value
+            region_total = sum(data[region].values())
+            value = data[region].get(col, 0)
+            col_total += value * (region_total / data['Region Totals'][col])
         data_totals[col] = col_total
-    total_population = sum(data_totals.values())
+
+    total_population = sum(data['Region Totals'].values())
     for col, total in data_totals.items():
         percentage = (total / total_population) * 100
         data_totals[col] = percentage
-
     return data_totals
 
 def nat_diff(sat_data, census_data):
