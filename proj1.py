@@ -211,15 +211,17 @@ def nat_pct(data, col_list):
     region_totals = data['Region Totals']
     data_totals = {}
     for col in col_list:
-        col_total = 0
-        for region in data:
-            if region != 'Region Totals':
-                region_total = region_totals.get(col, 0)
-                if region_total != 0:
-                    value = data[region].get(col, 0)
-                    percentage = (value / region_total) * 100
-                    col_total += percentage * (region_totals[region] / region_totals[col])
-        data_totals[col] = col_total
+        if col in region_totals:
+            col_total = 0
+            for region in data:
+                if region != 'Region Totals':
+                    region_total = region_totals.get(col, 0)
+                    if region_total != 0:
+                        value = data[region].get(col, 0)
+                        percentage = (value / region_total) * 100
+                        col_total += percentage * (region_totals[region] / region_totals[col])
+            data_totals[col] = col_total
+
     total_population = sum(region_totals.values())
     for col, total in data_totals.items():
         percentage = (total / total_population) * 100
