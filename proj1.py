@@ -208,7 +208,7 @@ def nat_pct(data, col_list):
         dictionary of the national demographic percentages
 
     '''
-    region_totals = data['Region Totals']
+ region_totals = data.get('Region Totals', {})
     data_totals = {}
     for col in col_list:
         if col in region_totals:
