@@ -208,18 +208,25 @@ def nat_pct(data, col_list):
         dictionary of the national demographic percentages
 
     '''
+    data_totals = {}
+    demo_total = {}
+    total = 0
 
-    data_totals = {}    
-    for col in col_list:
-        for region in data:
-            value = data[region].get(col, 0)
-            data_totals[col] = data_totals.get(col, 0) + value
-    total_population = sum(data_totals.values())
-    for col, total in data_totals.items():
-        percentage = ((total / total_population) * 100) * 2 
-        data_totals[col] = percentage
+    for demo in col_list:
+        demo_total[demo] = 0
+        data_totals[demo] = 0
     
+    for region in data:
+        total += data[region]["Region Totals"]
+        for demo in col_list:
+            demo_total[demo] += data[region][demo]
+    
+    for demo in col_list:
+        data_totals[demo] = round((demo_total[demo] / total) * 100, 2)
+   
     return data_totals
+    
+    
 
 def nat_diff(sat_data, census_data):
     '''
@@ -263,13 +270,12 @@ def main():
 
     # compute the difference between test taker and state demographics
     pct_diff = calc_diff(sat_pct, census_pct)
-    #rint(pct_diff)
 
     # output the csv
     output = write_csv(pct_diff, "proj1-Berrocal-Jennings.csv")
 
     # create a list from the keys of inner dict
-    demographics = list(pct_diff['midwest'].keys())[0:8] #excluded Region Totals
+    demographics = list(pct_diff['midwest'].keys())
 
     # mutate the data using the provided 'min_max_mutate' function
     dic_mutate = min_max_mutate(pct_diff, demographics)
@@ -283,6 +289,9 @@ def main():
     # extra credit here
 
     # if you did the EC, print the dict you get from nat_diff
+
+    national_pct = nat_pct(census_var, demographics)
+    
 
     pass
 
@@ -353,15 +362,11 @@ class HWTest(unittest.TestCase):
 
     # # testing the nat_pct extra credit function
     def test_nat_pct(self):
-        self.assertEqual(
-        nat_pct({"region":{"demo":5,"Region Totals":10}},["demo", "Region Totals"]),
-        {'Region Totals': 100.0, 'demo': 50.0})
+        self.assertEqual(nat_pct({"region":{"demo":5,"Region Totals":10}},["demo", "Region Totals"]),{'Region Totals': 100.0, 'demo': 50.0})
 
     # # second test for the nat_pct extra credit function
     def test2_nat_pct(self):
-         self.assertEqual(
-            self.sat_nat_pct["AMERICAN INDIAN/ALASKA NATIVE"],
-            0.73)
+        self.assertEqual(self.sat_nat_pct["AMERICAN INDIAN/ALASKA NATIVE"],0.73)
 
     # # testing the nat_dif extra credit function
     #def test_nat_diff(self):
