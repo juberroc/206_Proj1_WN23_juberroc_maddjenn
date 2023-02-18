@@ -208,6 +208,9 @@ def nat_pct(data, col_list):
         dictionary of the national demographic percentages
 
     '''
+    if not data or not col_list:
+        return {}
+
     region_totals = data.get('Region Totals', {})
     data_totals = {}
     
@@ -230,6 +233,11 @@ def nat_pct(data, col_list):
             data_totals[col] = percentage
 
     return data_totals
+
+
+
+
+
 
 def nat_diff(sat_data, census_data):
     '''
