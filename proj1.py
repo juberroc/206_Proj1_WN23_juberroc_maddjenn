@@ -1,4 +1,3 @@
-
 # Your names: Julio Berrocal Alvarez, Madison Jennings
 # Your student id: 14797142, 48980758
 # Your emails: juberroc@umich.edu , maddjenn@umich.edu
@@ -53,12 +52,10 @@ def calc_pct(data):
     '''
     Calculates the percentage of each demographic using this
     formula: (demographic / total people) * 100
-
     Parameters
     ----------
     data: dict
         Either SAT or Census data
-
     Returns
     -------
     pcts: dict
@@ -80,14 +77,12 @@ def calc_diff(sat_dict, census_dict):
     Takes the absolute value, rounded to 2 decimal places,
     of the difference between each demographic's percentage
     value in census_dict from sat_dict
-
     Parameters
     ----------
     sat_dict: dict
         SAT data
     census_dict: dict
         Census data
-
     Returns
     -------
     pct_dif: dict
@@ -107,15 +102,12 @@ def write_csv(data, file_name):
     '''
     Writes the data to csv, adding the header as
     the first row
-
     Parameters
     ----------
     data: dict
         dictionary with percent differences
-
     file_name: str
         the name of the file to write
-
     Returns
     -------
         None. (Doesn't return anything)
@@ -137,14 +129,12 @@ def min_max_mutate(data, col_list):
     of the nested dictionary and the region key to the inside
     nested dictionary like so:
     {'race/ethnicity': {'region': pct, 'region': pct, ...}...}
-
     Parameters
     ----------
     data : dict
         dictionary of data passed in.
     col_list : list
         list of columns to mutate to.
-
     Returns
     -------
     demo_vals: dict
@@ -164,12 +154,10 @@ def min_max(data):
     filling a dictionary in the following format:
     {"min": {"demographic": {"region": value}, ...},
      "max": {"demographic": {"region": value}, ...}...}
-
     Parameters
     ----------
     data: dict
         the result of min_max_mutate
-
     Returns
     -------
     min_max: dict
@@ -194,19 +182,16 @@ def nat_pct(data, col_list):
     to sum demographic values, calculating
     national demographic percentages from regional
     demographic percentages
-
     Parameters
     ----------
     data: dict
         Either SAT or Census data
     col_list: list
         list of the columns to loop through. helps filter out region totals columns
-
     Returns
     -------
     data_totals: dict
         dictionary of the national demographic percentages
-
     '''
     data_totals = {}
     demo_total = {}
@@ -240,7 +225,6 @@ def nat_diff(sat_data, census_data):
         national SAT data
     census_data: dict
         national Census data
-
     Returns
     nat_difference: dict
         the dictionary consisting of the demographic
@@ -338,9 +322,7 @@ class HWTest(unittest.TestCase):
         self.dif = nat_diff(self.sat_nat_pct, self.census_nat_pct)
 
     '''
-
     Create test functions for the functions you wrote here!
-
     '''
     def test_load_csv(self):
         self.assertEqual(len(self.sat_data), 4, "Testing that length of SAT dictionary is 4")
